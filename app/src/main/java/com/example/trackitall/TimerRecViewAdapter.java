@@ -44,7 +44,7 @@ public class TimerRecViewAdapter extends RecyclerView.Adapter<TimerRecViewAdapte
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
-
+    //TODO Change to sqlite
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
     holder.textLabel.setText(timer.get(position).getLabel());
@@ -71,6 +71,7 @@ public class TimerRecViewAdapter extends RecyclerView.Adapter<TimerRecViewAdapte
         });
     }
 
+    //TODO Change to sqlite
     @Override
     public int getItemCount() {
         return timer.size();

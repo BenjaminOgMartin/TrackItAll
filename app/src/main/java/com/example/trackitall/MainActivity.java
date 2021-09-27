@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         timerView = findViewById(R.id.timerView); // Connect timerView to the timerView ID
 
         // Each entry in the ArrayList represents a timer button
+        //TODO Change to sqlite
         ArrayList<Timer> timer = new ArrayList<>();
         timer.add(new Timer(1, "Reading", R.drawable.blue, 0, 0));
         timer.add(new Timer(2, "Cooking", R.drawable.green, 0, 0));
