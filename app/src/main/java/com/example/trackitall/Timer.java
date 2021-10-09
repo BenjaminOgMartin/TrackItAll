@@ -2,14 +2,23 @@ package com.example.trackitall;
 
 import android.widget.EditText;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity (tableName = "timers")
+
+
 public class Timer {
+    @PrimaryKey (autoGenerate = true)
     private int id;
     private String label;
     private int color;
     private int totalTime;
     private int timer;
 
-    // Constructor
+    // Class Constructor
+    @Ignore
     public Timer(int id, String label, int color, int totalTime, int timer) {
         this.id = id;
         this.label = label;
@@ -17,6 +26,15 @@ public class Timer {
         this.totalTime = totalTime;
         this.timer = timer;
     }
+
+    // Database constructor
+    public Timer(String label, int color, int totalTime, int timer) {
+        this.label = label;
+        this.color = color;
+        this.totalTime = totalTime;
+        this.timer = timer;
+    }
+
     //Getters and Setters
     public int getId() {
         return id;

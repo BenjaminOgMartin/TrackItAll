@@ -29,12 +29,13 @@ public class NewTaskActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
 
 
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             Intent intent = new Intent(NewTaskActivity.this, MainActivity.class);
             startActivity(intent);
+
+
                     
             
             //TODO Change boolean taskCreated = true

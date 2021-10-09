@@ -20,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            tools:text="@tools:sample/lorem"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            tools:text="@tools:sample/lorem" />
 
         <RelativeLayout
             android:layout_width="100dp"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
         </RelativeLayout>
     </RelativeLayout>

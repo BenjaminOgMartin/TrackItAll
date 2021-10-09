@@ -21,13 +21,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimerRecViewAdapter extends RecyclerView.Adapter<TimerRecViewAdapter.ViewHolder> {
 
-    private ArrayList<Timer> timer = new ArrayList<>();
+
+
+
+
+
 
     private Context context ;
     private boolean timerIsRunning = false;
@@ -37,50 +44,61 @@ public class TimerRecViewAdapter extends RecyclerView.Adapter<TimerRecViewAdapte
         this.context = context;
     }
 
+    private TimerDatabase db = TimerDatabase.getInstance(context);
+    private List<Timer> timerList = db.timerDao().getTimers();
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardviewlayout, parent, false);
         ViewHolder holder = new ViewHolder(view);
+
+
+
+
+
+
+
+
+//        LiveData<List<Timer>> liveTimers = db.timerDao().getTimers();
+//        liveTimers.observe((LifecycleOwner) context, timers -> {
+//
+//            String text = "";
+//            for (Timer t : timers) {
+//                text += t.getLabel();
+//            }
+//
+//            holder.textLabel.setText(text);
+//
+//        });
+//
+//
+//
+//
         return holder;
     }
-    //TODO Change to sqlite
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-    holder.textLabel.setText(timer.get(position).getLabel());
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!taskCreated){
-                    Intent intent = new Intent(context, NewTaskActivity.class);
-                    context.startActivity(intent);
-                }else{
-                    if(!timerIsRunning){
-                        holder.simpleChronometer.setBackgroundResource(timer.get(position).getColor());
-                        holder.simpleChronometer.setVisibility(View.VISIBLE);
-                        holder.textLabel.setVisibility(View.VISIBLE);
-                        holder.simpleChronometer.start();
-                        timerIsRunning = true;
-                    }else{
-                        holder.simpleChronometer.stop();
-                        timerIsRunning = false;
-                    }
-                }
-            }
-        });
+
+
+    Timer currentTimer = timerList.get(position);
+    holder.textLabel.setText(currentTimer.getLabel());
+    holder.simpleChronometer.setBackgroundResource(currentTimer.getColor());
+
     }
 
-    //TODO Change to sqlite
-    @Override
-    public int getItemCount() {
-        return timer.size();
-    }
 
-    public void setTimer(ArrayList<Timer> timer) {
-        this.timer = timer;
-        notifyDataSetChanged();
+ @Override
+public int getItemCount() {
+return 4;
     }
+//
+    public void setTimer(List<Timer> timers) {
+       this.timerList = timers;
+       notifyDataSetChanged();
+  }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -100,4 +118,30 @@ public class TimerRecViewAdapter extends RecyclerView.Adapter<TimerRecViewAdapte
 
         }
     }
+
+
+
+
+
+
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(!taskCreated){
+//                    Intent intent = new Intent(context, NewTaskActivity.class);
+//                    context.startActivity(intent);
+//                }else{
+//                    if(!timerIsRunning){
+//                        holder.simpleChronometer.setBackgroundResource(timerList.get(position).getColor());
+//                        holder.simpleChronometer.setVisibility(View.VISIBLE);
+//                        holder.textLabel.setVisibility(View.VISIBLE);
+//                        holder.simpleChronometer.start();
+//                        timerIsRunning = true;
+//                    }else{
+//                        holder.simpleChronometer.stop();
+//                        timerIsRunning = false;
+//                    }
+//                }
+//            }
+//        });
 }
