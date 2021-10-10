@@ -32,23 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         db = TimerDatabase.getInstance(this);
 
-
-
-
-
-//        // Each entry in the ArrayList represents a timer button
-//        ArrayList<Timer> timer = new ArrayList<>();
-//      timer.add(new Timer(1, "Reading", R.drawable.blue, 0, 0));
-//       timer.add(new Timer(2, "Cooking", R.drawable.green, 0, 0));
-//        timer.add(new Timer(3, "Gym", R.drawable.red, 0, 0));
-//       timer.add(new Timer(4, "Boner", R.drawable.yellow, 0, 0));
-
-
-
-
         // Creates the RecyclerView adapter
         TimerRecViewAdapter adapter = new TimerRecViewAdapter(this);
-  //      adapter.setTimer(db);
+        //adapter.setTimer(db); //TODO What is this
 
         timerView.setAdapter(adapter); // Connects the adapter to the timerView
         timerView.setLayoutManager(new GridLayoutManager(this, 2)); // Sets a grid layout

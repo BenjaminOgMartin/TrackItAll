@@ -30,77 +30,59 @@ import java.util.List;
 
 public class TimerRecViewAdapter extends RecyclerView.Adapter<TimerRecViewAdapter.ViewHolder> {
 
-
-
-
-
-
-
-    private Context context ;
-    private boolean timerIsRunning = false;
-    private boolean taskCreated = false;
+    Context context ; // Removed private/public
+    boolean timerIsRunning = false;
+    boolean taskCreated = false;
+    TimerDatabase db = TimerDatabase.getInstance(context);
+    List<Timer> timerList = db.timerDao().getTimers();
 
     public TimerRecViewAdapter(Context context) {
         this.context = context;
     }
-
-    private TimerDatabase db = TimerDatabase.getInstance(context);
-    private List<Timer> timerList = db.timerDao().getTimers();
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardviewlayout, parent, false);
         ViewHolder holder = new ViewHolder(view);
-
-
-
-
-
-
-
-
-//        LiveData<List<Timer>> liveTimers = db.timerDao().getTimers();
-//        liveTimers.observe((LifecycleOwner) context, timers -> {
-//
-//            String text = "";
-//            for (Timer t : timers) {
-//                text += t.getLabel();
-//            }
-//
-//            holder.textLabel.setText(text);
-//
-//        });
-//
-//
-//
-//
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-
-
-    Timer currentTimer = timerList.get(position);
-    holder.textLabel.setText(currentTimer.getLabel());
-    holder.simpleChronometer.setBackgroundResource(currentTimer.getColor());
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() { // Didn't work because it was under onCreateViewHolder
+            @Override
+            public void onClick(View view) {
+                if(!taskCreated){
+                    Intent intent = new Intent(context, NewTaskActivity.class);
+                    context.startActivity(intent);
+                }else{
+                    if(!timerIsRunning){
+                        holder.simpleChronometer.setBackgroundResource(timerList.get(position).getColor());
+                        holder.simpleChronometer.setVisibility(View.VISIBLE);
+                        holder.textLabel.setVisibility(View.VISIBLE);
+                        holder.simpleChronometer.start();
+                        timerIsRunning = true;
+                    }else{
+                        holder.simpleChronometer.stop();
+                        timerIsRunning = false;
+                    }
+                }
+            }
+        });
     }
 
-
- @Override
-public int getItemCount() {
-return 4;
+    @Override
+    public int getItemCount() {
+        return timerList.size();
     }
-//
+
     public void setTimer(List<Timer> timers) {
        this.timerList = timers;
        notifyDataSetChanged();
-  }
+    }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardLayout;
         private ImageView addTimer, timerBackground;
@@ -118,30 +100,5 @@ return 4;
 
         }
     }
-
-
-
-
-
-
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(!taskCreated){
-//                    Intent intent = new Intent(context, NewTaskActivity.class);
-//                    context.startActivity(intent);
-//                }else{
-//                    if(!timerIsRunning){
-//                        holder.simpleChronometer.setBackgroundResource(timerList.get(position).getColor());
-//                        holder.simpleChronometer.setVisibility(View.VISIBLE);
-//                        holder.textLabel.setVisibility(View.VISIBLE);
-//                        holder.simpleChronometer.start();
-//                        timerIsRunning = true;
-//                    }else{
-//                        holder.simpleChronometer.stop();
-//                        timerIsRunning = false;
-//                    }
-//                }
-//            }
-//        });
 }
+
